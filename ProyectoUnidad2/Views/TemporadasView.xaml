@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="ProyectoUnidad2.Views.TemporadasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProyectoUnidad2.Views" xmlns:viewmodels="clr-namespace:ProyectoUnidad2.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SeriesViewModel}"
+             mc:Ignorable="d" x:Name="uc1"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="TemporadaPlantilla">
+            <local:TemporadaView>
+                <local:TemporadaView.InputBindings>
+                    <MouseBinding Command="{Binding ElementName=uc1, Path=DataContext.CambioVentanaCommand}" 
+                              CommandParameter="{x:Static viewmodels:Ventanas.Detalles}"
+                              MouseAction="LeftDoubleClick"
+                    ></MouseBinding>
+                    <MouseBinding Command="{Binding ElementName=uc1, Path=DataContext.CambioVentanaCommand}" 
+                                CommandParameter="{x:Static viewmodels:Ventanas.ListaCapitulo}"
+                                MouseAction="RightDoubleClick"
+                    ></MouseBinding>
+                </local:TemporadaView.InputBindings>
+            </local:TemporadaView>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="TemporadaPanel">
+            <WrapPanel></WrapPanel>
+        </ItemsPanelTemplate>
+
+    </UserControl.Resources>
+    <DockPanel>
+        <Border Padding="5" Margin="5" BorderBrush="Gray" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
+            <TextBlock FontWeight="Bold" Background="Gray" FontSize="30" DockPanel.Dock="Top" TextAlignment="Center">Temporadas Disponibles</TextBlock>
+        </Border>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ListBox Background="#3F4A52" Height="230" ItemsSource="{Binding Temporadas}" 
+                         SelectedItem="{Binding Temporada}" ItemTemplate="{StaticResource TemporadaPlantilla}"
+                         ItemsPanel="{StaticResource TemporadaPanel}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                </ListBox>
+                <UniformGrid VerticalAlignment="Bottom" Rows="1">
+                    <Button Command="{Binding CambioVentanaCommand}"
+                            CommandParameter="{x:Static viewmodels:Ventanas.Agregar}"
+                            Margin="5" VerticalAlignment="Bottom" Padding="4" BorderThickness="2" BorderBrush="Green" 
+                            FontSize="18" Content="Agregar Temporada" HorizontalAlignment="Center"
+                            FontWeight="Bold">
+                    </Button>
+                    <Button Command="{Binding CambioVentanaCommand}"
+                            CommandParameter="{x:Static viewmodels:Ventanas.Eliminar}"
+                            Margin="5" VerticalAlignment="Bottom" Padding="4" BorderThickness="2" BorderBrush="Green" 
+                            FontSize="18" Content="Eliminar Temporada" HorizontalAlignment="Center"
+                            FontWeight="Bold"></Button>
+                </UniformGrid>
+               
+            </StackPanel>
+    </ScrollViewer>
+    </DockPanel>
+</UserControl>
